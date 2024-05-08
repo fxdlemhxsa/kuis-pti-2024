@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jurnalisme Warga</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@formatjs/intl@latest/dist/Intl.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -20,10 +21,106 @@
         font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
             sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         line-height: inherit;
+        display: flex;
+        flex-direction: column;
+        }
+
+        ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
+     <script>
+        function toggleDropdown(menuId) {
+            const dropdownMenu = document
+            .getElementById(menuId);
+            dropdownMenu.classList.toggle('hidden');
+        }
+
+        function formatTanggalIndonesia(tanggal) {
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+
+            const formatter = new Intl.DateTimeFormat('id-ID', options);
+            return formatter.format(tanggal);
+        }
+
+        window.onload = function() {
+        const tanggalIndonesia = document.getElementById('tanggal-hari-ini');
+        tanggalIndonesia.textContent = formatTanggalIndonesia(new Date());
+        };
+    </script>
 </head>
 <body>
-    <h1 style="font-weight: 900;">TEST</h1>
+    <header class="bg-black w-full text-white flex flex-row">
+        <div class="basis-1/3 border-r-[0.5px] border-slate-600 py-4 px-6">
+            <h2 class="text-2xl font-bold text-right tracking-tighter">Sudut Kantin Project</h2>
+        </div>
+        <div class="basis-2/3 flex items-center px-6">
+            <ul class="flex flex-row items-center gap-5 font-bold text-sm">
+                <li>
+                    <a href=""><span class="hover:underline underline-offset-8 hover:text-slate-300 transition-all duration-500">Kabar Redaksi</span></a>
+                </li>
+                <li onmouseover="toggleDropdown('sastra')" onmouseout="toggleDropdown('sastra')" class="relative cursor-pointer">
+                    <div class="flex flex-row gap-2 items-center">
+                        <span class="hover:underline underline-offset-8 hover:text-slate-300 transition-all duration-500">Sastra</span>
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> 
+                        </svg>
+                    </div>
+                    <ul id="sastra" class="hidden absolute shadow-lg bg-white left-0 mt-6 w-64 animate-fadeIn">
+                        <li><a href=""><span class="text-black font-light block px-4 py-2 text-sm hover:bg-gray-100">Puisi</span></a></li>
+                        <li><a href=""><span class="text-black font-light block px-4 py-2 text-sm hover:bg-gray-100">Cerpen</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <div class="flex flex-row gap-10 my-16">
+            <div class="basis-1/2 flex justify-end">
+                <div class="bg-black h-[36rem] w-[38rem]"></div>
+            </div>
+            <div class="basis-1/2">
+                <div class="flex flex-col w-1/2">
+                    <div class="flex flex-row justify-between items-center border-b border-black pb-4 mb-4">
+                        <span class="bg-black text-white font-bold py-2 px-4">Terbaru</span>
+                        <p id="tanggal-hari-ini" class="text-xs text-slate-500"></p>
+                    </div>
+                    <div>B</div>
+                    <div>C</div>
+                    <div>D</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-black w-full text-white flex flex-row h-52 mt-6">
+        <div class="basis-1/3">
+            <h2 class="text-2xl font-bold text-right tracking-tighter border-r-[0.5px] border-slate-600 h-full py-8 px-6">Sudut Kantin Project</h2>
+        </div>
+        <div class="basis-1/3"></div>
+        <div class="basis-1/3"></div>
+    </footer>
 </body>
 </html>
